@@ -9,6 +9,7 @@ const UsageLocation = () => {
   const dispatch = useDispatch()
   const usagelocation = useSelector((state) => state.app.usageLocation)
   const Switchusage = (t, n) => {
+    // console.log(t)
     dispatch(setDefaultusageLocation({ usageLocation: t }))
   }
 

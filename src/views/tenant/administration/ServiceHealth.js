@@ -1,6 +1,5 @@
 import React from 'react'
 import { CippPageList } from 'src/components/layout'
-import { CellTip } from 'src/components/tables'
 
 const columns = [
   {
@@ -31,7 +30,6 @@ const columns = [
     name: 'Description',
     selector: (row) => row['desc'],
     sortable: true,
-    cell: (row) => CellTip(row['desc']),
     exportSelector: 'desc',
   },
 ]

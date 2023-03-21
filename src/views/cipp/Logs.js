@@ -18,8 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faChevronRight, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { CippDatatable, cellDateFormatter, CellTip } from 'src/components/tables'
 import { useNavigate } from 'react-router-dom'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import { useLazyGenericGetRequestQuery } from 'src/store/api/app'
 
 const columns = [
   {
@@ -83,7 +82,8 @@ const Logs = () => {
   const DateFilter = query.get('DateFilter')
   //const [genericPostRequest, postResults] = useLazyGenericPostRequestQuery()
   const [visibleA, setVisibleA] = useState(false)
-  const [startDate, setStartDate] = useState(new Date())
+  const [listBackend, listBackendResult] = useLazyGenericGetRequestQuery()
+
   const handleSubmit = async (values) => {
     Object.keys(values).filter(function (x) {
       if (values[x] === null) {
@@ -93,7 +93,6 @@ const Logs = () => {
     })
     const shippedValues = {
       SearchNow: true,
-      DateFilter: startDate.toLocaleDateString('en-GB').split('/').reverse().join(''),
       ...values,
     }
     var queryString = Object.keys(shippedValues)
@@ -105,6 +104,7 @@ const Logs = () => {
 
   return (
     <>
+      {listBackendResult.isUninitialized && listBackend({ path: 'api/ListLogs?ListLogs=true' })}
       <CRow>
         <CCol>
           <CCard className="options-card">
@@ -128,7 +128,7 @@ const Logs = () => {
                   render={({ handleSubmit, submitting, values }) => {
                     return (
                       <CForm onSubmit={handleSubmit}>
-                        <CRow className="mb-3">
+                        <CRow>
                           <CCol>
                             <RFFCFormInput
                               type="text"
@@ -138,7 +138,7 @@ const Logs = () => {
                             />
                           </CCol>
                         </CRow>
-                        <CRow className="mb-3">
+                        <CRow>
                           <CCol>
                             <RFFCFormInput
                               type="text"
@@ -148,15 +148,16 @@ const Logs = () => {
                             />
                           </CCol>
                         </CRow>
-                        <CRow className="mb-3">
-                          <CCol>
-                            <DatePicker
-                              dateFormat="yyyyMMdd"
-                              className="form-control"
-                              selected={startDate}
-                              onChange={(date) => setStartDate(date)}
-                            />
-                          </CCol>
+                        <CRow>
+                          {listBackendResult.isSuccess && (
+                            <CCol>
+                              <RFFCFormSelect
+                                name="DateFilter"
+                                label="Log File"
+                                values={listBackendResult.data}
+                              />
+                            </CCol>
+                          )}
                         </CRow>
                         <CRow className="mb-3">
                           <CCol>

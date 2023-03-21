@@ -90,8 +90,8 @@ const _nav = [
       },
       {
         component: CNavItem,
-        name: 'Inactive Users',
-        to: '/identity/reports/inactive-users-report',
+        name: 'Basic Auth Report',
+        to: '/identity/reports/basic-auth-report',
       },
       {
         component: CNavItem,

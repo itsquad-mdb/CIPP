@@ -108,7 +108,6 @@ const EditGroup = () => {
       RemoveMember: values.RemoveMembers ? values.RemoveMembers : '',
       RemoveOwner: values.RemoveOwners ? values.RemoveOwners : '',
       AddContacts: values.AddContacts ? values.AddContacts : '',
-      RemoveContacts: values.RemoveContacts ? values.RemoveContacts : '',
       allowExternal: values.allowExternal,
     }
     //window.alert(JSON.stringify(shippedValues))
@@ -168,13 +167,14 @@ const EditGroup = () => {
                                 {usersError && <span>Failed to load list of users</span>}
                               </CCol>
                             </CRow>
+
                             <CRow>
                               <CCol md={12}>
                                 <RFFSelectSearch
                                   multi={true}
                                   label="Add Contact"
                                   values={contacts?.map((user) => ({
-                                    value: user.mail,
+                                    value: user.id,
                                     name: `${user.displayName} - ${user.mail}`,
                                   }))}
                                   placeholder={!contactsIsFetching ? 'Select user' : 'Loading...'}
@@ -187,12 +187,12 @@ const EditGroup = () => {
                               <CCol md={12}>
                                 <RFFSelectSearch
                                   multi={true}
-                                  label="Remove Member"
+                                  label="Remove User"
                                   values={members?.map((user) => ({
-                                    value: user.mail,
-                                    name: `${user.displayName} - ${user.mail}`,
+                                    value: user.userPrincipalName,
+                                    name: `${user.displayName} - ${user.userPrincipalName}`,
                                   }))}
-                                  placeholder={!usersIsFetching ? 'Select Member' : 'Loading...'}
+                                  placeholder={!usersIsFetching ? 'Select user' : 'Loading...'}
                                   name="RemoveMembers"
                                 />
                                 {usersError && <span>Failed to load list of users</span>}

@@ -76,17 +76,13 @@ const AddAPDevice = () => {
 
   const handleOnDrop = (data) => {
     const importdata = data.map((item) => {
-      const normalizedData = {}
-      Object.keys(item.data).forEach((key) => {
-        normalizedData[key.toLowerCase()] = item.data[key]
-      })
       return {
         //Device serial number,Windows product ID,Hardware hash,Manufacturer name,Device Model
-        SerialNumber: normalizedData['device serial number'],
-        productKey: normalizedData['windows product id'],
-        hardwareHash: normalizedData['hardware hash'],
-        oemManufacturerName: normalizedData['manufacturer name'],
-        modelName: normalizedData['device model'],
+        SerialNumber: item.data['Device serial number'],
+        productKey: item.data['Windows product ID'],
+        hardwareHash: item.data['Hardware hash'],
+        oemManufacturerName: item.data['Manufacturer name'],
+        modelName: item.data['Device Model'],
       }
     })
     setAutopilotdata(importdata)

@@ -167,9 +167,8 @@ function StatusText(graphErrorCount, lastGraphError) {
 }
 
 const TenantsList = () => {
-  const TenantListSelector = useSelector((state) => state.app.TenantListSelector)
   const tenant = useSelector((state) => state.app.currentTenant)
-  const [columnOmits, setOmitVisible] = useState(TenantListSelector)
+  const [columnOmits, setOmitVisible] = useState(true)
 
   const columns = [
     {

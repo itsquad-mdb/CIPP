@@ -18,7 +18,7 @@ export const UniversalSearch = React.forwardRef(
     const handleKeyDown = (event) => {
       if (event.key === 'Enter') {
         // on enter key, start the search
-        getSearchItems({ path: `/api/ExecUniversalSearch?name=${searchValue}` })
+        getSearchItems({ path: `/api/ExecUniversalSearch?SearchObj=${searchValue}` })
       }
     }
 
@@ -28,13 +28,13 @@ export const UniversalSearch = React.forwardRef(
           <CFormInput
             ref={ref}
             type="text"
-            placeholder="Search users in any tenant by UPN or Display Name. Requires Lighthouse onboarding"
+            placeholder="Search users in selected tenant"
             onKeyDown={handleKeyDown}
             onChange={handleChange}
             value={searchValue}
           />
         </div>
-
+        {searchItems.isSuccess && <Results items={searchItems.data} searchValue={searchValue} />}
         {searchItems.isFetching && (
           <>
             <div className="d-flex flex-column m-3">
@@ -48,8 +48,6 @@ export const UniversalSearch = React.forwardRef(
             </div>
           </>
         )}
-        {searchItems.isSuccess && <Results items={searchItems.data} searchValue={searchValue} />}
-        {searchItems.data <= 1 && 'No results found.'}
       </div>
     )
   },
@@ -80,7 +78,7 @@ const ResultsRow = ({ match }) => {
 
   const handleClick = () => {
     dispatch(hideSwitcher())
-    navigate(`/identity/administration/users?customerId=${match._tenantId}`)
+    navigate(`/identity/administration/users?customerId=${match.customerId}`)
   }
 
   return (
@@ -90,7 +88,7 @@ const ResultsRow = ({ match }) => {
           <div className="flex-grow-1 d-flex flex-column">
             <div className="mx-1">{match.displayName}</div>
             <div className="mx-1">{match.userPrincipalName}</div>
-            <small>Found in tenant {match._tenantId}</small>
+            <small>Found in tenant {match.defaultDomainName}</small>
           </div>
         </div>
       </div>

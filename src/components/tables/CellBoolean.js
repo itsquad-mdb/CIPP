@@ -42,16 +42,11 @@ export default function CellBoolean({
   } else if (typeof cell === 'string') {
     if (
       cell.toLowerCase() === 'success' ||
-      cell.toLowerCase() === 'enabled' ||
       cell.toLowerCase() === 'pass' ||
       cell.toLowerCase() === 'true'
     ) {
       normalized = true
-    } else if (
-      cell.toLowerCase() === 'fail' ||
-      cell.toLowerCase() === 'default' ||
-      cell.toLowerCase() === 'false'
-    ) {
+    } else if (cell.toLowerCase() === 'fail' || cell.toLowerCase() === 'false') {
       normalized = false
     }
   }
