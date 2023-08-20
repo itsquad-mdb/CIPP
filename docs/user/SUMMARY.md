@@ -53,7 +53,9 @@
   * [Standards](user-documentation/tenantadministration/standards/README.md)
     * [Edit Individual Standards](user-documentation/tenantadministration/standards/edit-individual-standards.md)
     * [Standards Wizard](user-documentation/tenantadministration/standards.md)
-    * [Best Practice Analyser](user-documentation/tenantadministration/bestpracticeanalyser.md)
+    * [Best Practice Analyser](user-documentation/tenantadministration/standards/bestpracticeanalyser/README.md)
+      * [Custom Reports](user-documentation/tenantadministration/standards/bestpracticeanalyser/custom-reports.md)
+      * [Custom Report options](user-documentation/tenantadministration/standards/bestpracticeanalyser/custom-report-options.md)
     * [Domains Analyser](user-documentation/tenantadministration/domainsanalyser.md)
   * [Conditional Access](user-documentation/tenantadministration/conditional-access/README.md)
     * [Policies](user-documentation/tenantadministration/conditionalaccesspolicies.md)
@@ -157,7 +159,7 @@
 * [Security Policy](security/security-policy.md)
 * [CIPP Community Vulnerability Disclosure Policy](security/cipp-community-vulnerability-disclosure-policy.md)
 
-## 👩💻 👩💻 👩💻 👩💻 Dev Documentation
+## 👩💻 Dev Documentation
 
 * [CIPP Dev Guide](developer-documentation/cipp-dev-guide/README.md)
   * [Setting Up for Local Development](developer-documentation/cipp-dev-guide/setting-up-for-local-development.md)
@@ -171,3 +173,7 @@
 
 * [Setup & Authentication](api-documentation/setup-and-authentication.md)
 * [Endpoints](api-documentation/endpoints.md)
+
+***
+
+* [MSP Adoption Toolkit: Building a CIPP Business Case](msp-adoption-toolkit-building-a-cipp-business-case.md)
