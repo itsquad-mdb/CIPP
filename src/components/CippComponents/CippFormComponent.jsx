@@ -225,6 +225,35 @@ export const CippFormComponent = (props) => {
         </>
       );
 
+    case "select":
+      return (
+        <>
+          <div>
+            <Controller
+              name={convertedName}
+              control={formControl.control}
+              rules={validators}
+              render={({ field }) =>
+                React.memo(
+                  <CippAutoComplete
+                    {...other}
+                    isFetching={other.isFetching}
+                    variant="filled"
+                    defaultValue={field.value}
+                    label={label}
+                    multiple={false}
+                    onChange={(value) => field.onChange(value.value)}
+                  />
+                )
+              }
+            />
+          </div>
+          <Typography variant="subtitle3" color="error">
+            {get(errors, convertedName, {}).message}
+          </Typography>
+        </>
+      );
+
     case "autoComplete":
       return (
         <>

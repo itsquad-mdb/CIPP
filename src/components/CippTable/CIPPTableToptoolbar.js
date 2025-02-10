@@ -1,4 +1,4 @@
-import { DeveloperMode, Sync, Tune, ViewColumn } from "@mui/icons-material";
+import { DeveloperMode, SevereCold, Sync, Tune, ViewColumn } from "@mui/icons-material";
 import {
   Button,
   Checkbox,
@@ -73,7 +73,10 @@ export const CIPPTableToptoolbar = ({
 
   //useEffect to set the column visibility to the preferred columns if they exist
   useEffect(() => {
-    if (settings?.columnDefaults?.[pageName]) {
+    if (
+      settings?.columnDefaults?.[pageName] &&
+      Object.keys(settings?.columnDefaults?.[pageName]).length > 0
+    ) {
       setColumnVisibility(settings?.columnDefaults?.[pageName]);
     }
   }, [settings?.columnDefaults?.[pageName], router, usedColumns]);
@@ -88,27 +91,42 @@ export const CIPPTableToptoolbar = ({
   });
 
   const resetToDefaultVisibility = () => {
-    setColumnVisibility({});
+    setColumnVisibility((prevVisibility) => {
+      const updatedVisibility = {};
+      for (const col in prevVisibility) {
+        if (Array.isArray(originalSimpleColumns)) {
+          updatedVisibility[col] = originalSimpleColumns.includes(col);
+        }
+      }
+      return updatedVisibility;
+    });
     settings.handleUpdate({
       columnDefaults: {
         ...settings?.columnDefaults,
         [pageName]: {},
       },
     });
+    columnPopover.handleClose();
   };
 
   const resetToPreferedVisibility = () => {
-    if (settings?.columnDefaults?.[pageName]) {
+    if (
+      settings?.columnDefaults?.[pageName] &&
+      Object.keys(settings?.columnDefaults?.[pageName]).length > 0
+    ) {
       setColumnVisibility(settings?.columnDefaults?.[pageName]);
     } else {
       setColumnVisibility((prevVisibility) => {
         const updatedVisibility = {};
         for (const col in prevVisibility) {
-          updatedVisibility[col] = originalSimpleColumns.includes(col);
+          if (Array.isArray(originalSimpleColumns)) {
+            updatedVisibility[col] = originalSimpleColumns.includes(col);
+          }
         }
         return updatedVisibility;
       });
     }
+    columnPopover.handleClose();
   };
 
   const saveAsPreferedColumns = () => {
@@ -118,6 +136,7 @@ export const CIPPTableToptoolbar = ({
         [pageName]: columnVisibility,
       },
     });
+    columnPopover.handleClose();
   };
 
   const mergeCaseInsensitive = (obj1, obj2) => {
@@ -267,7 +286,6 @@ export const CIPPTableToptoolbar = ({
                   } else if (data && !getRequestData.isFetched) {
                     //do nothing because data was sent native.
                   } else if (getRequestData) {
-                    console.log(getRequestData);
                     getRequestData.refetch();
                   }
                 }}
@@ -424,6 +442,11 @@ export const CIPPTableToptoolbar = ({
         </Box>
         <Box>
           <Box sx={{ display: "flex", gap: "0.5rem" }}>
+            {getRequestData?.data?.pages?.[0].Metadata?.ColdStart === true && (
+              <Tooltip title="Function App cold start was detected, data takes a little longer to retrieve on first load.">
+                <SevereCold />
+              </Tooltip>
+            )}
             {actions && (table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
               <>
                 <Button
@@ -460,7 +483,7 @@ export const CIPPTableToptoolbar = ({
                   }}
                 >
                   {actions
-                    ?.filter((action) => !action.link)
+                    ?.filter((action) => !action.link && !action?.hideBulk)
                     .map((action, index) => (
                       <MenuItem
                         key={index}
